@@ -78,6 +78,15 @@ class DocData:
         self.context['examHours'] = self.exam_hours
         self.context['certificationForm'] = self.certification_form
 
+    def get_place(self, module, text1, text2, text3, text4, text5, text6):
+        self.context['module'] = module
+        self.context['text1'] = text1
+        self.context['text2'] = text2
+        self.context['text3'] = text3
+        self.context['text4'] = text4
+        self.context['text5'] = text5
+        self.context['text6'] = text6
+
     def send_data(self):
         self.obj.create_part(self.context)
 

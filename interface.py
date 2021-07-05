@@ -13,8 +13,7 @@ from doc_creator import *
 
 db = SqliteDatabase('database.db')
 data_obj = doc_creator.DocData()
-data_from_ui = []
-global_dict = {}
+global_dic = {}
 
 
 class Parser:
@@ -167,7 +166,8 @@ def openTitle():
         decanDate.append(dataAllYearList.get())
         subject = subjectsList.get()
         profile = profileList.get()
-        global_dict['discipline'] = subject
+        global_dic['discipline'] = subject
+
         data_obj.get_title(
             decanDate[0],
             decanDate[1],
@@ -209,9 +209,8 @@ def openTitle():
 
 
     obj = DataBase()
-    disc = [item for item in obj.get_disciplines()]
 
-    subjectsList = ttk.Combobox(titleEdit, values=disc)
+    subjectsList = ttk.Combobox(titleEdit, values=obj.get_disciplines())
     subjectsList.place(x=236, y=23)
     subjectsList.config(width=60)
 
@@ -259,8 +258,8 @@ def openFirst():
         objective = target.get()
         problems = box.get(0, END)
         data_obj.get_first_chapter(objective, problems)
-        print(target.get())
-        print("\n".join(box.get(0, END)))
+        firstEdit.destroy()
+
 
     box = Listbox(firstEdit, selectmode=EXTENDED, width=80)
     box.grid(row=3, column=1, sticky="w")
@@ -291,10 +290,11 @@ def openSecond():
     Descr1 = Label(secondEdit, text="2.1. Учебная дисциплина (модуль) ")
     Descr1.place(x=10, y=10)
 
-    obj = Parser()
-    comp = list(obj.get_competences().keys())
+    obj = DataBase()
+    var = obj.get_disciplines()
+    disc = [item.split(':')[1] for item in var]
 
-    subjectsList = ttk.Combobox(secondEdit, values=comp)
+    subjectsList = ttk.Combobox(secondEdit, values=disc)
     subjectsList.place(x=210, y=10)
 
     descr2 = Label(secondEdit, text="относится к части, ")
@@ -311,7 +311,8 @@ def openSecond():
     descr3 = Label(secondEdit, text="Наименования дисциплин, необходимых для освоения данной учебной дисциплины:")
     descr3.place(x=10, y=100)
 
-    subjectsList2 = ttk.Combobox(secondEdit, values=comp)
+    entry3str = StringVar()
+    subjectsList2 = Entry(secondEdit, textvariable=entry3str)
     subjectsList2.place(x=10, y=130)
 
     descr4 = Label(
@@ -344,6 +345,20 @@ def openSecond():
     entry5 = Entry(secondEdit, textvariable=entry5str, width=80)
     entry5.place(x=10, y=355)
 
+    def get_second_edit():
+        data_obj.get_place(
+            subjectsList.get(),
+            subjectsList2.get(),
+            entry1str.get(),
+            entry2str.get(),
+            entry3str.get(),
+            entry4str.get(),
+            entry5str.get()
+        )
+        secondEdit.destroy()
+
+    Button(secondEdit, text="Сохранить", command=get_second_edit).grid(row=8, column=0, padx=5, pady=15, sticky="w")
+
 
 def openThird():
     obj = DataBase()
@@ -354,8 +369,10 @@ def openThird():
     third_edit.geometry('600x400')
     third_edit.resizable(width=False, height=False)
 
+
+    disc_name = global_dic['discipline'].split(':')[1]
     counter = 1
-    for item in obj.get_competences(global_dict['discipline'].split(':')[1]):
+    for item in obj.get_competences(disc_name):
         certification_label = Label(third_edit, text=item, font=('Ubuntu', 14))
         certification_label.grid(row=counter, column=0, sticky="w", padx=5, pady=10)
         counter += 1
@@ -364,7 +381,7 @@ def openThird():
 def openFourth():
     # Instance of database
     obj = DataBase()
-    hours = obj.get_hours(global_dict['discipline'])
+    hours = obj.get_hours(global_dic['discipline'].split(':')[1])
 
     # Base parameters of edit
     four_edit = Toplevel(menu)
