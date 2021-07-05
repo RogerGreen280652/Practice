@@ -448,33 +448,25 @@ def openSeventh():
     seventhEdit.title('VII. ОБРАЗОВАТЕЛЬНЫЕ ТЕХНОЛОГИИ')
     seventhEdit.geometry('600x400')
     seventhEdit.resizable(width=False, height=False)
-    frame1 = Frame(seventhEdit)
 
-    frames = []
-    widgets = []
-    def createwidgets():
-        global widgetNames
-        global frameNames
 
-        frame = tk.Frame(seventhEdit, borderwidth=2, relief="groove")
-        frames.append(frame)
-
-        frame.pack(side="top", fill="x")
-
-        for i in range(5):
-            widget = tk.Entry(frame)
-            widgets.append(widget)
-            print(i % 5)
-            widget.pack(side="left")
-        for i in range(len(widgets)):
-            if (i % 5 == 0):
-                widgets[i]["state"] = "readonly"
-
-        print(widgets[0].get())
-
-    createWidgetButton = tk.Button(
-        seventhEdit, text="Добавить строку", command=createwidgets, bg="#127545", fg="white")
-    createWidgetButton.pack(side="bottom", fill="x")
+    # Label of counter
+    # counter_label = Label(seventhEdit, text="Введите кол-во тем: ", font=('Ubuntu', 14))
+    # counter_label.grid(row=0, column=0, padx=5, pady=0, sticky="w")
+    #
+    # counter = StringVar()
+    # exam_hours_form = Entry(seventhEdit, textvariable=counter, width=60, font=('Ubuntu', 12))
+    # exam_hours_form.grid(row=1, column=0, padx=5, pady=0, sticky="w")
+    #
+    # def add_table(counter):
+    #     for i in range(int(counter)):
+    #         table_str_label = Label(seventhEdit, text="Введите данные: : ", font=('Ubuntu', 14))
+    #         table_str_label.grid(row=2, column=0, padx=5, pady=0, sticky="w")
+    #         str = StringVar()
+    #         table_str_form = Entry(seventhEdit, textvariable=str, width=60, font=('Ubuntu', 12))
+    #         table_str_form.grid(row=3, column=0, padx=5, pady=0, sticky="w")
+    #
+    # Button(seventhEdit, text="Создать", command=add_table(counter)).grid(row=7, column=0, padx=5, pady=15, sticky="w")
 
 
 def create_doc():
@@ -513,7 +505,7 @@ if __name__ == '__main__':
                        command=openFourth, bg="#127545", fg="white").grid(row=5, column=0, sticky="w", padx=5, pady=10)
 
     fifthBtn = Button(menu, text="V. УЧЕБНО-МЕТОДИЧЕСКОЕ И ИНФОРМАЦИОННОЕ ОБЕСПЕЧЕНИЕ ДИСЦИПЛИНЫ (МОДУЛЯ)",
-                      command=openFirst, bg="#127545", fg="white").grid(row=6, column=0, sticky="w", padx=5, pady=10)
+                      command=openSeventh, bg="#127545", fg="white").grid(row=6, column=0, sticky="w", padx=5, pady=10)
 
     Button(menu, text="Создать документ", command=create_doc).grid(row=8, column=0, padx=5, pady=15, sticky="w")
 
